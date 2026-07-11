@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="zh-Hant" data-base-path="/mcut-m4-business-analytics-2026-student/">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#0e3a43">
+  <meta name="course-progress-schema" content="v1">
+  <title>Day 2｜AI 商品組合優化、品類管理與供應規劃｜M4 數據分析</title>
+  <meta name="description" content="從多指標 KPI、KMeans 與 PCA 到可執行的商品角色">
+  <link rel="canonical" href="https://johnnychao.github.io/mcut-m4-business-analytics-2026-student/day-2/index.html">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230e3a43'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-family='Georgia' font-size='28' font-weight='700' fill='%23e3a21a'%3EM4%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/site.css">
+  <script src="../assets/app.js" defer></script>
+</head>
+<body data-page="day" data-day="2">
+  <a class="skip-link" href="#main-content">跳到主要內容</a>
+  <header class="site-header">
+    <div class="brand-row shell">
+      <a class="brand" href="../index.html" aria-label="回到課程首頁">
+        <span class="brand-mark" aria-hidden="true">M4</span>
+        <span><strong>M4 數據分析</strong><small>明志科技大學｜數據商業分析模組</small></span>
+      </a>
+      <button class="print-button" type="button" data-print><span aria-hidden="true">▣</span> 列印本頁</button>
+    </div>
+    <nav class="course-nav shell" aria-label="課程主要導覽"><a class="nav-link" href="../index.html">課程首頁</a><a class="nav-link" href="../preflight/index.html">課前檢查</a><a class="nav-link" href="../day-1/index.html">Day 1</a><a class="nav-link is-active" href="index.html" aria-current="page">Day 2</a><a class="nav-link" href="../day-3/index.html">Day 3</a><a class="nav-link" href="../day-4/index.html">Day 4</a><a class="nav-link" href="../resources/index.html">資源中心</a><a class="nav-link" href="../faq/index.html">常見問題</a></nav>
+  </header>
+  <main id="main-content" tabindex="-1">
+<section class="day-hero">
+  <div class="shell hero-grid">
+    <div><p class="day-kicker">DAY 2 / 4</p><h1>AI 商品組合優化、品類管理與供應規劃</h1><p class="hero-subtitle">從多指標 KPI、KMeans 與 PCA 到可執行的商品角色</p></div>
+    <aside class="progress-panel" aria-labelledby="progress-label-2">
+      <p id="progress-label-2" class="eyebrow">今日進度</p>
+      <p class="progress-copy" data-progress-summary data-day="2">0 / 10 步</p>
+      <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" data-progress-bar data-day="2"><span></span></div>
+      <button class="text-button" type="button" data-reset-progress data-day="2">重設今日進度</button>
+    </aside>
+  </div>
+</section>
+<div class="shell page-stack">
+  <div class="action-grid" aria-label="本日教學資源"><a class="action-button action-colab" href="https://colab.research.google.com/github/johnnychao/mcut-m4-business-analytics-2026-student/blob/main/docs/resources/notebooks/day-2-portfolio-analysis.ipynb" target="_blank" rel="noopener"><span aria-hidden="true">↗</span>在 Colab 開啟</a><a class="action-button action-notebook" href="https://github.com/johnnychao/mcut-m4-business-analytics-2026-student/blob/main/docs/resources/notebooks/day-2-portfolio-analysis.ipynb" target="_blank" rel="noopener"><span aria-hidden="true">⇩</span>查看 Notebook</a><a class="action-button action-csv" href="https://raw.githubusercontent.com/johnnychao/mcut-m4-business-analytics-2026-student/main/docs/resources/data/day-2-product-portfolio.csv" target="_blank" rel="noopener"><span aria-hidden="true">⇩</span>下載 CSV</a><span class="action-button is-disabled" aria-disabled="true"><span aria-hidden="true">✓</span>課後驗收表單<small>待發布</small></span></div>
+  <section class="section-block story-block" aria-labelledby="story-title-2">
+    <div class="section-heading"><p class="eyebrow">Business story</p><h2 id="story-title-2">今天，你是企業的數據分析顧問</h2></div>
+    <div class="story-copy"><p>星期二上午九點，虛構的跨企業產品決策中心召開資源會議（以下企業、資料與結論皆為虛構教學用途）。營運主管林若晴把一張寫著「今天十七點前定案」的卡片放上桌：公司不只一項商品，有限預算、場地與人力到底要分給誰？雜草町有二十個課程方案，有些報名多卻逼近場地上限，有些毛利不差但再訪低；義大的企劃經理陳柏宇面對購物、飯店與樂園套票，擔心只看營收會把高成本方案誤認為明星，也怕熱門方案超過房晚容量；盛香珍X亙美質珍的品牌團隊要在口味、包裝與通路組合間取捨，希望分辨引流、獲利、培養與限量測試角色；寶島眼鏡的會員經理則提醒，鏡框、鏡片、驗配服務與會員方案不能都用庫存週轉衡量，服務還要看時段與人力利用率。</p><p>衝突很快浮上檯面。財務按毛利額排序，行銷看成長率，營運看容量利用率，顧客團隊則看滿意度與回購率；四張排行榜各有道理，卻導向不同資源配置。資料分析師許安庭提出三項資料線索：第一，各方案有十二個月的營收、成本與銷量，可先算出毛利與成長；第二，容量、回購、滿意度與需求波動揭露單看營收看不到的風險；第三，指標尺度差異很大，若不標準化，數字較大的變數會主導距離。她也提醒，KMeans 只把輪廓相近的項目放在一起，cluster 0 不是第一名；群數、尺度與亂數種子都可能改變結果。</p><p>你的任務是先把月資料彙總成每家公司二十個商品或服務輪廓，建立成長－毛利矩陣，再標準化六項特徵，比較 k=3、4、5 的 inertia 與 silhouette，使用固定種子完成 KMeans，最後回到原始 KPI 解讀群集。PCA 只用來把六維資料壓縮成二維地圖，協助觀察相似性與離群位置；它不會替群集命名，也不能證明某項指標造成績效。十七點前的交付物是一份二十列「商品角色與資源配置表」，每列要有群號、人工角色、建議行動、營收、毛利、成長、利用率與供應風險。你可以不同意演算法，但每次調整都必須引用至少一個數據指標與一項企業限制，讓財務、行銷與營運都能質疑、重跑並共同決策。</p></div>
+  </section>
+  <section class="section-block objectives-block" aria-labelledby="objectives-title-2">
+    <div class="section-heading"><p class="eyebrow">Learning goals</p><h2 id="objectives-title-2">完成今天後，你應該能做到</h2></div>
+    <ol class="objective-list"><li><p>能把月資料正確彙總成商品／服務層級 KPI，先加總分子分母再計算比率。</p></li><li><p>能用毛利、成長、資源利用、回購、滿意度與波動描述組合取捨。</p></li><li><p>能說明尺度如何影響距離，並用 StandardScaler 建立可比較特徵。</p></li><li><p>能比較 k=3、4、5 的 inertia、silhouette 與商業可解釋性。</p></li><li><p>能建立可重現 KMeans，並用原始 KPI 輪廓而非群號命名。</p></li><li><p>能解讀 PCA scores、loadings 與解釋變異，且不把圖形當準確率或因果。</p></li><li><p>能提出保留、培養、調整、驗證行動並納入容量與前置期風險。</p></li></ol>
+  </section>
+  <section class="section-block" aria-labelledby="timeline-title-2">
+    <div class="section-heading"><p class="eyebrow">8-hour route</p><h2 id="timeline-title-2">8 小時教學時間軸</h2></div>
+    <ol class="timeline"><li class="timeline-item"><div class="timeline-time">09:00–09:35</div><div class="timeline-card"><h3>組合決策故事與載入</h3><dl class="field-list nested"><div class="field-row"><dt>學員活動</dt><dd><p>確認月資料粒度、四家公司與虛擬標記。</p></dd></div></dl></div></li><li class="timeline-item"><div class="timeline-time">09:35–10:15</div><div class="timeline-card"><h3>資料檢查與企業篩選</h3><dl class="field-list nested"><div class="field-row"><dt>學員活動</dt><dd><p>取得一家企業 240 列、20 項輪廓來源。</p></dd></div></dl></div></li><li class="timeline-item"><div class="timeline-time">10:15–10:25</div><div class="timeline-card"><h3>休息</h3><dl class="field-list nested"><div class="field-row"><dt>學員活動</dt><dd><p>儲存 Colab 副本。</p></dd></div></dl></div></li><li class="timeline-item"><div class="timeline-time">10:25–11:15</div><div class="timeline-card"><h3>KPI 工廠</h3><dl class="field-list nested"><div class="field-row"><dt>學員活動</dt><dd><p>完成 20 列 portfolio 並驗算兩項商品。</p></dd></div></dl></div></li><li class="timeline-item"><div class="timeline-time">11:15–12:00</div><div class="timeline-card"><h3>績效矩陣</h3><dl class="field-list nested"><div class="field-row"><dt>學員活動</dt><dd><p>提出候選角色與一項反證。</p></dd></div></dl></div></li><li class="timeline-item"><div class="timeline-time">12:00–13:00</div><div class="timeline-card"><h3>午休</h3><dl class="field-list nested"><div class="field-row"><dt>學員活動</dt><dd><p>備份 KPI 與圖表。</p></dd></div></dl></div></li><li class="timeline-item"><div class="timeline-time">13:00–13:40</div><div class="timeline-card"><h3>標準化</h3><dl class="field-list nested"><div class="field-row"><dt>學員活動</dt><dd><p>確認六特徵平均接近 0、標準差約 1。</p></dd></div></dl></div></li><li class="timeline-item"><div class="timeline-time">13:40–14:25</div><div class="timeline-card"><h3>選擇群數</h3><dl class="field-list nested"><div class="field-row"><dt>學員活動</dt><dd><p>寫出 k 選擇理由而非套用固定答案。</p></dd></div></dl></div></li><li class="timeline-item"><div class="timeline-time">14:25–14:35</div><div class="timeline-card"><h3>休息</h3><dl class="field-list nested"><div class="field-row"><dt>學員活動</dt><dd><p>完成 k 比較表。</p></dd></div></dl></div></li><li class="timeline-item"><div class="timeline-time">14:35–15:20</div><div class="timeline-card"><h3>KMeans 與群集輪廓</h3><dl class="field-list nested"><div class="field-row"><dt>學員活動</dt><dd><p>為群集寫暫定名稱與限制。</p></dd></div></dl></div></li><li class="timeline-item"><div class="timeline-time">15:20–16:05</div><div class="timeline-card"><h3>PCA 地圖</h3><dl class="field-list nested"><div class="field-row"><dt>學員活動</dt><dd><p>完成二維圖與主成分方向解讀。</p></dd></div></dl></div></li><li class="timeline-item"><div class="timeline-time">16:05–17:00</div><div class="timeline-card"><h3>人工命名與供應護欄</h3><dl class="field-list nested"><div class="field-row"><dt>學員活動</dt><dd><p>提出保留、培養、調整、驗證四類行動。</p></dd></div></dl></div></li><li class="timeline-item"><div class="timeline-time">17:00–18:00</div><div class="timeline-card"><h3>決策表與驗收</h3><dl class="field-list nested"><div class="field-row"><dt>學員活動</dt><dd><p>提交 20 列決策表、PCA 圖與數據化建議。</p></dd></div></dl></div></li></ol>
+  </section>
+  <section class="section-block steps-section" aria-labelledby="steps-title-2">
+    <div class="section-heading"><p class="eyebrow">Follow along</p><h2 id="steps-title-2">學員逐步操作</h2><p>從上到下完成。每一步都包含輸入、操作、預期輸出、解讀與檢核。</p></div>
+    <div class="keyboard-hint" aria-label="鍵盤操作提示"><kbd>J</kbd> 下一步　<kbd>K</kbd> 上一步　<kbd>P</kbd> 列印</div>
+    <div class="step-list">
+<article class="step-card" id="D2-S01" tabindex="-1" data-step-card>
+  <div class="step-heading">
+    <span class="step-number" aria-hidden="true">01</span>
+    <div><p class="eyebrow">Student step</p><h3>載入商品組合月資料</h3></div>
+    <label class="progress-check"><input type="checkbox" data-progress-checkbox data-day="2" data-step="D2-S01"><span>完成</span></label>
+  </div>
+  <dl class="field-list"><div class="field-row"><dt>本步目標</dt><dd><p>成功載入 960 列、16 欄資料，確認月資料粒度與分析任務。</p></dd></div><div class="field-row"><dt>操作路徑</dt><dd><p>Day 2 Notebook → 1. 載入資料與套件</p></dd></div><div class="field-row"><dt>操作動作</dt><dd><ol class="content-list"><li><p>從課程網站開啟 Day 2 Colab，建立自己的 Google Drive 副本。</p></li><li><p>下載 day2_product_portfolio.csv，從 Colab 左側檔案區上傳到 /content。</p></li><li><p>確認 DATA_FILENAME 與實際檔名一致，且沒有 (1) 或 .xlsx 副檔名。</p></li><li><p>執行載入格，核對資料路徑、(960, 16) 與前三列。</p></li><li><p>找到 offer_id、month、units_sold、capacity_units、price、unit_cost 與 is_synthetic。</p></li><li><p>寫出粒度：一列是一家公司的一個 offer_id 在一個月份的績效。</p></li></ol></dd></div><div class="field-row"><dt>參數設定</dt><dd><p>本段不修改參數；保持 DATA_FILENAME 為 day2_product_portfolio.csv。</p></dd></div><div class="field-row"><dt>執行方式</dt><dd><p>執行第一個程式碼格，等待資料預覽完成；字型快取訊息不是錯誤。</p></dd></div><div class="field-row"><dt>預期輸出</dt><dd><p>資料尺寸 (960, 16)，前三列為雜草町手捏陶體驗-方案1 的 2025 年月資料；is_synthetic 為 True。</p></dd></div><div class="field-row"><dt>結果解讀</dt><dd><p>960 列可由 4 家公司 × 每家 20 個 offer × 12 個月推得。這一層仍是月資料，不能把一列直接稱為一個商品的全年績效；後續需彙總成每個 offer_id 一列，才適合分群。</p></dd></div><div class="field-row"><dt>常見錯誤與修復</dt><dd><ol class="content-list"><li><dl class="field-list nested"><div class="field-row"><dt>錯誤現象</dt><dd><p>FileNotFoundError：找不到 day2_product_portfolio.csv</p></dd></div><div class="field-row"><dt>可能原因</dt><dd><p>尚未上傳或使用 Day 1 檔名。</p></dd></div><div class="field-row"><dt>修正方式</dt><dd><p>刪除錯誤檔，重新下載 Day 2 CSV，上傳到 /content 後重跑。</p></dd></div></dl></li><li><dl class="field-list nested"><div class="field-row"><dt>錯誤現象</dt><dd><p>輸出是 (384, 12)</p></dd></div><div class="field-row"><dt>可能原因</dt><dd><p>誤用 Day 1 市場需求資料。</p></dd></div><div class="field-row"><dt>修正方式</dt><dd><p>回網站下載 day2_product_portfolio.csv，重啟工作階段並由第一格執行。</p></dd></div></dl></li></ol></dd></div><div class="field-row"><dt>完成檢核</dt><dd><p>我能用 4×20×12 驗證 960 列，並說出一列的月度粒度。</p></dd></div></dl>
+  <figure class="output-figure"><img loading="lazy" src="../assets/figures/day-2/figure-01.png" alt="Day 2 D2-S01 完成後的 Colab 輸出或操作檢核示意"><figcaption>D2-S01 完成後的預期畫面示意</figcaption></figure>
+</article>
+
+<article class="step-card" id="D2-S02" tabindex="-1" data-step-card>
+  <div class="step-heading">
+    <span class="step-number" aria-hidden="true">02</span>
+    <div><p class="eyebrow">Student step</p><h3>檢查資料並選定單一企業</h3></div>
+    <label class="progress-check"><input type="checkbox" data-progress-checkbox data-day="2" data-step="D2-S02"><span>完成</span></label>
+  </div>
+  <dl class="field-list"><div class="field-row"><dt>本步目標</dt><dd><p>處理日期與教學缺失，確保公司篩選後為 240 列、20 個 offer。</p></dd></div><div class="field-row"><dt>操作路徑</dt><dd><p>Day 2 Notebook → 2. 檢查資料並選定企業</p></dd></div><div class="field-row"><dt>操作動作</dt><dd><ol class="content-list"><li><p>執行前確認 df 為 Day 2 資料，再閱讀日期轉型與虛擬標記 assert。</p></li><li><p>查看 repeat_rate、satisfaction 以企業內中位數補值的規則。</p></li><li><p>只修改 SELECTED_COMPANY 為小組企業完整名稱。</p></li><li><p>執行後核對資料筆數 240、商品／服務數 20。</p></li><li><p>確認 company_df 的企業唯一值為 1，月份為 12。</p></li><li><p>抽查同一 offer_id 是否剛好有 12 列，再把結果記入資料檢核表。</p></li></ol></dd></div><div class="field-row"><dt>參數設定</dt><dd><p>SELECTED_COMPANY 可填四家企業完整名稱；不要修改 is_synthetic assert 或 offer_id。</p></dd></div><div class="field-row"><dt>執行方式</dt><dd><p>修改企業後執行；每次切換企業需從本格重跑到最後。</p></dd></div><div class="field-row"><dt>預期輸出</dt><dd><p>雜草町預設輸出資料筆數 240、商品／服務數 20；前三列為 D2-01-01 的月資料。</p></dd></div><div class="field-row"><dt>結果解讀</dt><dd><p>公司篩選把不同量級與不同單位分開，20 個 offer 各有 12 月，後續才能彙總成 20 列輪廓。repeat_rate 與 satisfaction 的補值規則是教學簡化，正式決策仍需記錄缺失原因與敏感度。</p></dd></div><div class="field-row"><dt>常見錯誤與修復</dt><dd><ol class="content-list"><li><dl class="field-list nested"><div class="field-row"><dt>錯誤現象</dt><dd><p>AssertionError 或 company_df 為空</p></dd></div><div class="field-row"><dt>可能原因</dt><dd><p>企業名稱拼錯、少了 X 或多空白。</p></dd></div><div class="field-row"><dt>修正方式</dt><dd><p>先顯示 df[&#x27;company&#x27;].unique()，直接複製完整名稱後重跑。</p></dd></div></dl></li><li><dl class="field-list nested"><div class="field-row"><dt>錯誤現象</dt><dd><p>資料筆數不是 240 或 offer 數不是 20</p></dd></div><div class="field-row"><dt>可能原因</dt><dd><p>使用錯檔、前面刪列或 company 篩選未生效。</p></dd></div><div class="field-row"><dt>修正方式</dt><dd><p>恢復原始 CSV，由第一格重跑；核對 company_df 只有一個公司值。</p></dd></div></dl></li></ol></dd></div><div class="field-row"><dt>完成檢核</dt><dd><p>我能驗證 20 offer×12 月=240，且只剩本組企業。</p></dd></div></dl>
+  <figure class="output-figure"><img loading="lazy" src="../assets/figures/day-2/figure-02.png" alt="Day 2 D2-S02 完成後的 Colab 輸出或操作檢核示意"><figcaption>D2-S02 完成後的預期畫面示意</figcaption></figure>
+</article>
+
+<article class="step-card" id="D2-S03" tabindex="-1" data-step-card>
+  <div class="step-heading">
+    <span class="step-number" aria-hidden="true">03</span>
+    <div><p class="eyebrow">Student step</p><h3>建立商品／服務 KPI 輪廓</h3></div>
+    <label class="progress-check"><input type="checkbox" data-progress-checkbox data-day="2" data-step="D2-S03"><span>完成</span></label>
+  </div>
+  <dl class="field-list"><div class="field-row"><dt>本步目標</dt><dd><p>從月資料彙總 20 列輪廓，正確計算分子、分母、利用率與波動。</p></dd></div><div class="field-row"><dt>操作路徑</dt><dd><p>Day 2 Notebook → 3. 建立商品／服務 KPI</p></dd></div><div class="field-row"><dt>操作動作</dt><dd><ol class="content-list"><li><p>先在月資料新增 revenue=units_sold×price 與 gross_profit=units_sold×(price-unit_cost)。</p></li><li><p>閱讀 groupby 的鍵：offer_id、offer、category，確認每項彙總成一列。</p></li><li><p>檢查銷量、容量、營收、毛利用 sum；回購、滿意、成長、前置期用 mean；月銷量波動用 std。</p></li><li><p>執行後確認 portfolio 有 20 列，且 revenue、gross_profit 皆非負。</p></li><li><p>驗算 gross_margin_rate 是總毛利÷總營收，resource_utilization 是總銷量÷總容量。</p></li><li><p>驗算 demand_volatility 是月標準差÷月均銷量，而不是除以全年總量。</p></li><li><p>從前十名表挑兩項，引用至少三個 KPI 比較。</p></li></ol></dd></div><div class="field-row"><dt>參數設定</dt><dd><p>維持原始 KPI 公式；如要新增指標，另存副本並寫明分子、分母與單位。</p></dd></div><div class="field-row"><dt>執行方式</dt><dd><p>依序執行 KPI 格，確認 portfolio 生成後才進入績效矩陣。</p></dd></div><div class="field-row"><dt>預期輸出</dt><dd><p>portfolio 20 列。雜草町前列例：手捏陶-方案2 營收 1,575,585、毛利 1,039,780、毛利率 0.660、利用率 0.817；羊毛氈-方案3 利用率約 0.828。</p></dd></div><div class="field-row"><dt>結果解讀</dt><dd><p>總量先加總再計算比率可保留正確權重。毛利額回答賺多少，毛利率回答每元營收留下多少；利用率高可能代表受歡迎，也可能代表容量風險；波動高表示月度不穩，需搭配供應與角色判斷。</p></dd></div><div class="field-row"><dt>常見錯誤與修復</dt><dd><ol class="content-list"><li><dl class="field-list nested"><div class="field-row"><dt>錯誤現象</dt><dd><p>gross_margin_rate 出現 inf 或 NaN</p></dd></div><div class="field-row"><dt>可能原因</dt><dd><p>某項營收為 0 或資料被改壞。</p></dd></div><div class="field-row"><dt>修正方式</dt><dd><p>先檢查 revenue 分母與 price、units_sold；不要用 fillna 隱藏零分母。</p></dd></div></dl></li><li><dl class="field-list nested"><div class="field-row"><dt>錯誤現象</dt><dd><p>portfolio 仍有 240 列</p></dd></div><div class="field-row"><dt>可能原因</dt><dd><p>未執行 groupby agg，或顯示的是 company_df。</p></dd></div><div class="field-row"><dt>修正方式</dt><dd><p>確認 display 的物件是 portfolio，且 groupby 鍵只有 offer 層級欄位。</p></dd></div></dl></li></ol></dd></div><div class="field-row"><dt>完成檢核</dt><dd><p>我能驗算兩項商品的營收、毛利率、利用率與波動分母。</p></dd></div></dl>
+  <figure class="output-figure"><img loading="lazy" src="../assets/figures/day-2/figure-03.png" alt="Day 2 D2-S03 完成後的 Colab 輸出或操作檢核示意"><figcaption>D2-S03 完成後的預期畫面示意</figcaption></figure>
+</article>
+
+<article class="step-card" id="D2-S04" tabindex="-1" data-step-card>
+  <div class="step-heading">
+    <span class="step-number" aria-hidden="true">04</span>
+    <div><p class="eyebrow">Student step</p><h3>繪製成長－毛利績效矩陣</h3></div>
+    <label class="progress-check"><input type="checkbox" data-progress-checkbox data-day="2" data-step="D2-S04"><span>完成</span></label>
+  </div>
+  <dl class="field-list"><div class="field-row"><dt>本步目標</dt><dd><p>同時讀取成長、毛利率、資源利用率與品類，形成候選而非結論。</p></dd></div><div class="field-row"><dt>操作路徑</dt><dd><p>Day 2 Notebook → 4. 畫出績效矩陣</p></dd></div><div class="field-row"><dt>操作動作</dt><dd><ol class="content-list"><li><p>執行散點圖，確認 x 軸為 growth_rate、y 軸為 gross_margin_rate。</p></li><li><p>確認氣泡大小代表 resource_utilization，顏色代表 category。</p></li><li><p>找出水平與垂直虛線，說明它們是本企業中位數而非固定標準。</p></li><li><p>在四象限各挑一個點，記錄 offer 名稱與三個 KPI。</p></li><li><p>為右上象限提出一項培養假設，也為其找一項容量或波動反證。</p></li><li><p>為左下象限提出調整或限量驗證，不得直接等同下架。</p></li></ol></dd></div><div class="field-row"><dt>參數設定</dt><dd><p>本段維持中位數切線；若改平均數，需在圖標題與解讀中明示。</p></dd></div><div class="field-row"><dt>執行方式</dt><dd><p>執行後用滑鼠或 portfolio 表對照點位；Notebook 靜態圖不顯示名稱時需以 KPI 排序查找。</p></dd></div><div class="field-row"><dt>預期輸出</dt><dd><p>產生一張成長率×毛利率氣泡圖，兩條中位數虛線形成四象限；氣泡大小隨利用率改變。</p></dd></div><div class="field-row"><dt>結果解讀</dt><dd><p>右上象限表示相對高成長、高毛利率候選，但不保證毛利額大或容量充足；左上可能是成熟獲利，右下可能是成長引流或成本待改善，左下需診斷而非自動淘汰。切線是相對本組資料的中位數。</p></dd></div><div class="field-row"><dt>常見錯誤與修復</dt><dd><ol class="content-list"><li><dl class="field-list nested"><div class="field-row"><dt>錯誤現象</dt><dd><p>NameError：portfolio is not defined</p></dd></div><div class="field-row"><dt>可能原因</dt><dd><p>跳過 KPI 彙總段。</p></dd></div><div class="field-row"><dt>修正方式</dt><dd><p>先完成 D2-S03 並確認 portfolio 20 列，再畫矩陣。</p></dd></div></dl></li><li><dl class="field-list nested"><div class="field-row"><dt>錯誤現象</dt><dd><p>氣泡全部差不多或某一點極大</p></dd></div><div class="field-row"><dt>可能原因</dt><dd><p>resource_utilization 計算或零分母異常。</p></dd></div><div class="field-row"><dt>修正方式</dt><dd><p>回 KPI 表檢查利用率分子分母與極端值，不先調整 sizes 掩蓋問題。</p></dd></div></dl></li></ol></dd></div><div class="field-row"><dt>完成檢核</dt><dd><p>我能說出四個視覺編碼，並為一項候選同時寫支持與反證。</p></dd></div></dl>
+  <figure class="output-figure"><img loading="lazy" src="../assets/figures/day-2/figure-04.png" alt="Day 2 D2-S04 完成後的 Colab 輸出或操作檢核示意"><figcaption>D2-S04 完成後的預期畫面示意</figcaption></figure>
+</article>
+
+<article class="step-card" id="D2-S05" tabindex="-1" data-step-card>
+  <div class="step-heading">
+    <span class="step-number" aria-hidden="true">05</span>
+    <div><p class="eyebrow">Student step</p><h3>標準化六個分群特徵</h3></div>
+    <label class="progress-check"><input type="checkbox" data-progress-checkbox data-day="2" data-step="D2-S05"><span>完成</span></label>
+  </div>
+  <dl class="field-list"><div class="field-row"><dt>本步目標</dt><dd><p>理解尺度支配，建立平均接近 0、標準差約 1 的特徵矩陣。</p></dd></div><div class="field-row"><dt>操作路徑</dt><dd><p>Day 2 Notebook → 5. 標準化分群特徵</p></dd></div><div class="field-row"><dt>操作動作</dt><dd><ol class="content-list"><li><p>核對 feature_cols 包含毛利率、成長率、資源利用率、回購率、滿意度、需求波動。</p></li><li><p>確認 inf 被換為 NaN，再以各欄中位數補值。</p></li><li><p>執行 StandardScaler.fit_transform，產生 X_scaled 與 scaled_df。</p></li><li><p>在 describe 表確認每欄 count=20、mean 接近 0、std 約 1.03。</p></li><li><p>找出每個標準化特徵的最小、最大值，判斷是否有遠離平均的項目。</p></li><li><p>用一句話解釋 z-score 正值、負值與零附近的相對意義。</p></li></ol></dd></div><div class="field-row"><dt>參數設定</dt><dd><p>本段固定六特徵；不要把 revenue 原始金額直接加入，除非重新論證尺度與角色意義。</p></dd></div><div class="field-row"><dt>執行方式</dt><dd><p>執行後保留 X_scaled，後續 k 比較、KMeans、PCA 都使用同一矩陣。</p></dd></div><div class="field-row"><dt>預期輸出</dt><dd><p>20×6 特徵；各欄 mean 約 0，樣本 std 約 1.03；雜草町 demand_volatility 最大標準分數約 2.69。</p></dd></div><div class="field-row"><dt>結果解讀</dt><dd><p>標準化把每欄轉成相對自身平均的標準差距離，使滿意度 1–5 與比率 0–1 在距離中較可比較。它不表示六個 KPI 在商業上同等重要；若要權重不同，需另行設計並透明說明。</p></dd></div><div class="field-row"><dt>常見錯誤與修復</dt><dd><ol class="content-list"><li><dl class="field-list nested"><div class="field-row"><dt>錯誤現象</dt><dd><p>Input X contains infinity</p></dd></div><div class="field-row"><dt>可能原因</dt><dd><p>比率存在零分母，未執行 replace 或來源 KPI 異常。</p></dd></div><div class="field-row"><dt>修正方式</dt><dd><p>先回 KPI 查零分母，再確認 feature_matrix 有 replace inf 與明確補值。</p></dd></div></dl></li><li><dl class="field-list nested"><div class="field-row"><dt>錯誤現象</dt><dd><p>標準化後 mean 明顯不接近 0</p></dd></div><div class="field-row"><dt>可能原因</dt><dd><p>顯示的是原始 portfolio，或 scaler 未套用正確六欄。</p></dd></div><div class="field-row"><dt>修正方式</dt><dd><p>確認查看 scaled_df.describe()，欄位與 feature_cols 完全一致。</p></dd></div></dl></li></ol></dd></div><div class="field-row"><dt>完成檢核</dt><dd><p>我能解釋為何標準化，以及 mean≈0、std≈1 所代表的檢核。</p></dd></div></dl>
+  <figure class="output-figure"><img loading="lazy" src="../assets/figures/day-2/figure-05.png" alt="Day 2 D2-S05 完成後的 Colab 輸出或操作檢核示意"><figcaption>D2-S05 完成後的預期畫面示意</figcaption></figure>
+</article>
+
+<article class="step-card" id="D2-S06" tabindex="-1" data-step-card>
+  <div class="step-heading">
+    <span class="step-number" aria-hidden="true">06</span>
+    <div><p class="eyebrow">Student step</p><h3>比較 k=3、4、5 的群數</h3></div>
+    <label class="progress-check"><input type="checkbox" data-progress-checkbox data-day="2" data-step="D2-S06"><span>完成</span></label>
+  </div>
+  <dl class="field-list"><div class="field-row"><dt>本步目標</dt><dd><p>結合 inertia、silhouette 與商業可解釋性選擇探索群數。</p></dd></div><div class="field-row"><dt>操作路徑</dt><dd><p>Day 2 Notebook → 6. 比較群數 k</p></dd></div><div class="field-row"><dt>操作動作</dt><dd><ol class="content-list"><li><p>閱讀 for k in range(3, 6)，確認會比較 3、4、5 三種群數。</p></li><li><p>確認每個 KMeans 使用相同 random_state=20260714、n_init=10。</p></li><li><p>執行並記錄每個 k 的 inertia 與 silhouette。</p></li><li><p>讀左圖看 inertia 隨 k 下降，讀右圖找 silhouette 較高者。</p></li><li><p>寫出選 k 的三項證據：數值、圖形、商業可解釋性。</p></li><li><p>明確寫下『四種商品角色不代表必須 k=4』。</p></li></ol></dd></div><div class="field-row"><dt>參數設定</dt><dd><p>比較範圍固定 k=3、4、5；進階延伸可擴大，但需確保每群樣本數可解讀。</p></dd></div><div class="field-row"><dt>執行方式</dt><dd><p>執行後產生三列表格與兩張折線；保留 k_scores 供 BEST_K 自動選擇。</p></dd></div><div class="field-row"><dt>預期輸出</dt><dd><p>雜草町：k=3 inertia 40.135、silhouette 0.344；k=4 為 32.003、0.288；k=5 為 25.083、0.266。</p></dd></div><div class="field-row"><dt>結果解讀</dt><dd><p>inertia 隨 k 增加必然下降，不能單看最小值；silhouette 越高通常表示群內較緊、群間較分，但也不是商業真理。此資料 k=3 的 silhouette 較高，仍需檢查群大小與輪廓是否可說明。</p></dd></div><div class="field-row"><dt>常見錯誤與修復</dt><dd><ol class="content-list"><li><dl class="field-list nested"><div class="field-row"><dt>錯誤現象</dt><dd><p>ValueError：Number of labels is 1</p></dd></div><div class="field-row"><dt>可能原因</dt><dd><p>資料或 X_scaled 異常，KMeans 只產生一群。</p></dd></div><div class="field-row"><dt>修正方式</dt><dd><p>確認 portfolio 20 列、X_scaled 無缺失且 k 在 3–5，再由標準化段重跑。</p></dd></div></dl></li><li><dl class="field-list nested"><div class="field-row"><dt>錯誤現象</dt><dd><p>每次執行分數改變</p></dd></div><div class="field-row"><dt>可能原因</dt><dd><p>自行移除 random_state 或 n_init 設定。</p></dd></div><div class="field-row"><dt>修正方式</dt><dd><p>恢復 random_state=20260714、n_init=10，確保可重現。</p></dd></div></dl></li></ol></dd></div><div class="field-row"><dt>完成檢核</dt><dd><p>我能引用三組分數，並說明為何本次先選 k=3 而非永遠選 3。</p></dd></div></dl>
+  
+</article>
+
+<article class="step-card" id="D2-S07" tabindex="-1" data-step-card>
+  <div class="step-heading">
+    <span class="step-number" aria-hidden="true">07</span>
+    <div><p class="eyebrow">Student step</p><h3>建立 KMeans 並解讀群集輪廓</h3></div>
+    <label class="progress-check"><input type="checkbox" data-progress-checkbox data-day="2" data-step="D2-S07"><span>完成</span></label>
+  </div>
+  <dl class="field-list"><div class="field-row"><dt>本步目標</dt><dd><p>用固定設定建立群集，從原始 KPI 輪廓命名而非把群號當排名。</p></dd></div><div class="field-row"><dt>操作路徑</dt><dd><p>Day 2 Notebook → 7. 建立 KMeans 群集</p></dd></div><div class="field-row"><dt>操作動作</dt><dd><ol class="content-list"><li><p>執行 BEST_K 選擇與 KMeans.fit_predict，確認本組採用的 k。</p></li><li><p>確認 portfolio 新增 cluster 欄，群號從 0 開始但沒有優劣順序。</p></li><li><p>查看 cluster_profile 的六項原始 KPI 平均，不用 z-score 向主管解釋。</p></li><li><p>讀熱圖時逐欄比較，不把顏色跨不同單位直接當大小。</p></li><li><p>為每群列出兩項相對高、兩項相對低指標。</p></li><li><p>提出暫定名稱並加上『候選』，保留後續人工修改。</p></li></ol></dd></div><div class="field-row"><dt>參數設定</dt><dd><p>BEST_K 由 k_scores 的最高 silhouette 產生；若人工改 k，需另存版本並說明理由。</p></dd></div><div class="field-row"><dt>執行方式</dt><dd><p>執行後應出現採用 k 的文字、cluster_profile 表與熱圖。</p></dd></div><div class="field-row"><dt>預期輸出</dt><dd><p>雜草町採用 k=3。群0 約毛利率0.570、成長0.065、利用0.786、回購0.404、滿意4.017、波動0.132；群2 波動約0.250且成長約-0.078。</p></dd></div><div class="field-row"><dt>結果解讀</dt><dd><p>群0 在成長、利用、回購與滿意相對較高，可列為成長／主力候選；群2 成長低、回購低、滿意低、波動高，較適合調整或限量驗證。但群號可因重跑或設定改變，名稱必須依輪廓而非數字。</p></dd></div><div class="field-row"><dt>常見錯誤與修復</dt><dd><ol class="content-list"><li><dl class="field-list nested"><div class="field-row"><dt>錯誤現象</dt><dd><p>NameError：k_scores 或 X_scaled 不存在</p></dd></div><div class="field-row"><dt>可能原因</dt><dd><p>跳過選 k 或標準化段。</p></dd></div><div class="field-row"><dt>修正方式</dt><dd><p>從 D2-S05 依序重跑標準化、k 比較，再建立群集。</p></dd></div></dl></li><li><dl class="field-list nested"><div class="field-row"><dt>錯誤現象</dt><dd><p>熱圖看似每欄顏色差異不一致</p></dd></div><div class="field-row"><dt>可能原因</dt><dd><p>使用原始 KPI 且各欄尺度不同，單一色階會受整體中心影響。</p></dd></div><div class="field-row"><dt>修正方式</dt><dd><p>以表格數字逐欄比較；若要標準化輪廓圖，另作一張並清楚標示。</p></dd></div></dl></li></ol></dd></div><div class="field-row"><dt>完成檢核</dt><dd><p>我能用至少四個原始 KPI 描述一群，且不把 cluster 0 說成冠軍。</p></dd></div></dl>
+  
+</article>
+
+<article class="step-card" id="D2-S08" tabindex="-1" data-step-card>
+  <div class="step-heading">
+    <span class="step-number" aria-hidden="true">08</span>
+    <div><p class="eyebrow">Student step</p><h3>用 PCA 呈現群集與變數方向</h3></div>
+    <label class="progress-check"><input type="checkbox" data-progress-checkbox data-day="2" data-step="D2-S08"><span>完成</span></label>
+  </div>
+  <dl class="field-list"><div class="field-row"><dt>本步目標</dt><dd><p>正確區分 PCA scores、loadings 與解釋變異，保守解讀二維圖。</p></dd></div><div class="field-row"><dt>操作路徑</dt><dd><p>Day 2 Notebook → 8. 用 PCA 呈現群集</p></dd></div><div class="field-row"><dt>操作動作</dt><dd><ol class="content-list"><li><p>確認 PCA 使用同一個 X_scaled，n_components=2。</p></li><li><p>執行後記錄 PC1、PC2 解釋變異比例及合計。</p></li><li><p>在散點圖辨識每個商品的 score 位置與 cluster 顏色。</p></li><li><p>查看 loadings 表，找出 PC1、PC2 絕對值較大的變數。</p></li><li><p>用『方向由哪些 KPI 共同構成』描述主成分，不硬取單一自然名稱。</p></li><li><p>檢查不同群是否重疊，並寫出二維投影可能遺失的資訊。</p></li></ol></dd></div><div class="field-row"><dt>參數設定</dt><dd><p>本課固定 2 個主成分供視覺化；不可把 explained_variance_ratio 當模型準確率。</p></dd></div><div class="field-row"><dt>執行方式</dt><dd><p>執行後取得 [PC1, PC2] 解釋變異、散點圖與 6×2 loadings 表。</p></dd></div><div class="field-row"><dt>預期輸出</dt><dd><p>雜草町 PC1 約 0.732、PC2 約 0.179，合計約 0.911。PC1 對成長、利用、回購、滿意約皆 +0.466～+0.471，對波動約 -0.348；PC2 對毛利率約 +0.938。</p></dd></div><div class="field-row"><dt>結果解讀</dt><dd><p>PC1 可暫看成顧客／成長／利用共同上升、波動下降的方向；PC2 主要受毛利率驅動。這只是資料中的線性組合與變異方向，不是準確率、因果軸或企業天然維度。</p></dd></div><div class="field-row"><dt>常見錯誤與修復</dt><dd><ol class="content-list"><li><dl class="field-list nested"><div class="field-row"><dt>錯誤現象</dt><dd><p>PCA 圖只有一種顏色</p></dd></div><div class="field-row"><dt>可能原因</dt><dd><p>cluster 欄未建立或 hue 指錯欄位。</p></dd></div><div class="field-row"><dt>修正方式</dt><dd><p>先完成 KMeans，確認 portfolio[&#x27;cluster&#x27;] 有 k 個唯一值，再重跑 PCA。</p></dd></div></dl></li><li><dl class="field-list nested"><div class="field-row"><dt>錯誤現象</dt><dd><p>把 0.732 說成分群準確率 73.2%</p></dd></div><div class="field-row"><dt>可能原因</dt><dd><p>混淆解釋變異與有標籤預測指標。</p></dd></div><div class="field-row"><dt>修正方式</dt><dd><p>改寫為 PC1 保留標準化特徵總變異的約 73.2%，不代表分群正確率。</p></dd></div></dl></li></ol></dd></div><div class="field-row"><dt>完成檢核</dt><dd><p>我能解釋 scores、loadings、兩軸變異與二維投影限制。</p></dd></div></dl>
+  
+</article>
+
+<article class="step-card" id="D2-S09" tabindex="-1" data-step-card>
+  <div class="step-heading">
+    <span class="step-number" aria-hidden="true">09</span>
+    <div><p class="eyebrow">Student step</p><h3>人工命名角色並加入供應風險</h3></div>
+    <label class="progress-check"><input type="checkbox" data-progress-checkbox data-day="2" data-step="D2-S09"><span>完成</span></label>
+  </div>
+  <dl class="field-list"><div class="field-row"><dt>本步目標</dt><dd><p>以透明規則產生候選角色，再依企業定位、容量與前置期人工修正。</p></dd></div><div class="field-row"><dt>操作路徑</dt><dd><p>Day 2 Notebook → 9. 由人命名群集並提出行動</p></dd></div><div class="field-row"><dt>操作動作</dt><dd><ol class="content-list"><li><p>閱讀 overall 中位數與 suggest_role 四條透明規則。</p></li><li><p>執行後查看每個 offer 的 cluster、suggested_role 與三項關鍵 KPI。</p></li><li><p>確認角色是在商品列層級判斷，不等同整個 cluster 名稱。</p></li><li><p>讀取 supply_risk：利用率&gt;0.85 且前置期高於中位數才標高風險。</p></li><li><p>挑四項分別提出保留、培養、調整、驗證行動，每項引用數字。</p></li><li><p>至少修改一個演算法候選角色，並寫出品牌或營運理由。</p></li><li><p>為高利用或長前置期項目加入容量、批量或停止護欄。</p></li></ol></dd></div><div class="field-row"><dt>參數設定</dt><dd><p>suggest_role 與 supply_risk 門檻是透明教學規則；可在決策欄人工修正，但需保留原候選與理由。</p></dd></div><div class="field-row"><dt>執行方式</dt><dd><p>執行後產生 20 列角色與風險表；切換企業時從 D2-S02 重新執行。</p></dd></div><div class="field-row"><dt>預期輸出</dt><dd><p>雜草町例：手捏陶-方案2、3與羊毛氈-方案3為成長／獲利候選；老宅夜間工藝-方案5、金工-方案4可為引流／容量管理候選；多項為調整／限量測試候選。</p></dd></div><div class="field-row"><dt>結果解讀</dt><dd><p>角色規則以企業中位數形成候選，不是標準答案。成長與毛利高可培養，但需看容量；利用高但毛利不高可能是引流或需漲價；回購高可設會員／加購；其餘先調整或限量驗證。供應風險門檻未涵蓋所有真實限制。</p></dd></div><div class="field-row"><dt>常見錯誤與修復</dt><dd><ol class="content-list"><li><dl class="field-list nested"><div class="field-row"><dt>錯誤現象</dt><dd><p>所有商品都被分到同一角色</p></dd></div><div class="field-row"><dt>可能原因</dt><dd><p>overall 或特徵欄被改、資料只剩少量列。</p></dd></div><div class="field-row"><dt>修正方式</dt><dd><p>恢復 portfolio 20 列與原始 suggest_role 規則，檢查各 KPI 中位數。</p></dd></div></dl></li><li><dl class="field-list nested"><div class="field-row"><dt>錯誤現象</dt><dd><p>明明利用率很高卻 supply_risk 顯示一般</p></dd></div><div class="field-row"><dt>可能原因</dt><dd><p>規則同時要求利用率&gt;0.85 且前置期高於中位數。</p></dd></div><div class="field-row"><dt>修正方式</dt><dd><p>逐項檢查兩個條件；若業務認為單一條件已高風險，可人工升級並說明。</p></dd></div></dl></li></ol></dd></div><div class="field-row"><dt>完成檢核</dt><dd><p>我完成四類行動，每項有 KPI、企業理由與容量／供應護欄。</p></dd></div></dl>
+  
+</article>
+
+<article class="step-card" id="D2-S10" tabindex="-1" data-step-card>
+  <div class="step-heading">
+    <span class="step-number" aria-hidden="true">10</span>
+    <div><p class="eyebrow">Student step</p><h3>匯出商品組合決策表並完成驗收</h3></div>
+    <label class="progress-check"><input type="checkbox" data-progress-checkbox data-day="2" data-step="D2-S10"><span>完成</span></label>
+  </div>
+  <dl class="field-list"><div class="field-row"><dt>本步目標</dt><dd><p>形成 20 列可追溯決策表，完成測驗、實作與 Run All 驗收。</p></dd></div><div class="field-row"><dt>操作路徑</dt><dd><p>Day 2 Notebook → 10. 匯出商品組合決策表 → 當日學習驗收</p></dd></div><div class="field-row"><dt>操作動作</dt><dd><ol class="content-list"><li><p>執行 recommended_action 規則，確認角色映射成四類可執行行動。</p></li><li><p>查看 decision_output 是否有 20 列與 12 個指定欄位。</p></li><li><p>確認每列保留 cluster、suggested_role、recommended_action 與原始 KPI。</p></li><li><p>在 outputs 找到 Day2_商品組合決策表.csv，下載並開啟抽查中文編碼。</p></li><li><p>完成網站 10 題選擇題，至少 8/10；依錯因回到對應段落。</p></li><li><p>完成實作題：至少四個標準化指標、KMeans、PCA、群集命名與四類行動。</p></li><li><p>Restart and Run All，確認輸出檔可由乾淨執行階段重建。</p></li></ol></dd></div><div class="field-row"><dt>參數設定</dt><dd><p>可在決策表人工新增 final_role、decision_owner、review_date；不可覆蓋原 suggested_role 與 KPI 證據。</p></dd></div><div class="field-row"><dt>執行方式</dt><dd><p>執行輸出格、下載 CSV，最後重新啟動並全部執行完成驗收。</p></dd></div><div class="field-row"><dt>預期輸出</dt><dd><p>decision_output 20 列。雜草町前列包含手捏陶-方案2、羊毛氈-方案3等培養候選，以及容量管理、會員／加購、調整／限量驗證行動。</p></dd></div><div class="field-row"><dt>結果解讀</dt><dd><p>決策表保留演算法、人工翻譯與原始數據三層，使後續 Day 3 定價與上市策略可以回查依據。它不是永久商品名單，應設定檢討日期、資料版本與決策人，並以真實資料更新。</p></dd></div><div class="field-row"><dt>常見錯誤與修復</dt><dd><ol class="content-list"><li><dl class="field-list nested"><div class="field-row"><dt>錯誤現象</dt><dd><p>輸出 CSV 中文亂碼</p></dd></div><div class="field-row"><dt>可能原因</dt><dd><p>用不支援 UTF-8 BOM 的工具開啟或另存時改編碼。</p></dd></div><div class="field-row"><dt>修正方式</dt><dd><p>確認 Notebook 使用 encoding=&#x27;utf-8-sig&#x27;，以 Excel 匯入 UTF-8 或 Google Sheets 開啟。</p></dd></div></dl></li><li><dl class="field-list nested"><div class="field-row"><dt>錯誤現象</dt><dd><p>Restart and Run All 在 PCA 或角色段失敗</p></dd></div><div class="field-row"><dt>可能原因</dt><dd><p>前面儲存格被跳過、手動改欄名或 X_scaled 未建立。</p></dd></div><div class="field-row"><dt>修正方式</dt><dd><p>還原原始 Notebook，只修改 SELECTED_COMPANY，重新上傳 CSV 後完整重跑。</p></dd></div></dl></li></ol></dd></div><div class="field-row"><dt>完成檢核</dt><dd><p>我已提交可重跑 Notebook、20 列決策表、PCA 圖、四類行動與限制說明。</p></dd></div></dl>
+  
+</article>
+</div>
+  </section>
+  
+  <nav class="day-pager" aria-label="每日課程換頁">
+    <a rel="prev" data-prev-day href="../day-1/index.html">← Day 1</a>
+    <a href="../index.html">回課程地圖</a>
+    <a rel="next" data-next-day href="../day-3/index.html">Day 3 →</a>
+  </nav>
+</div>
+</main>
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <div><strong>MCUT M4 商業分析與智慧決策</strong><p>教材中的企業情境與數值皆為教學虛擬資料。</p></div>
+      <div><p>鍵盤：在每日頁按 <kbd>J</kbd>/<kbd>K</kbd> 移動步驟，按 <kbd>P</kbd> 列印。</p></div>
+    </div>
+  </footer>
+  <div class="toast" role="status" aria-live="polite" aria-atomic="true" data-toast></div>
+</body>
+</html>
