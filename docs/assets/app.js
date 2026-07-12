@@ -88,7 +88,8 @@
   const initEnterpriseSelectors = () => {
     const selectors = [...document.querySelectorAll("[data-enterprise-select]")];
     const groups = [...document.querySelectorAll("[data-enterprise-group]")];
-    if (!selectors.length || !groups.length) return;
+    // 首頁只有選擇器、沒有企業資源群組；仍需保存選擇供每日頁與資源中心套用。
+    if (!selectors.length) return;
 
     const availableIds = new Set(
       selectors.flatMap((select) => [...select.options].map((option) => option.value)),

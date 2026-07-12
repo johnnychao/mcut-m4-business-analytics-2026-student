@@ -632,6 +632,69 @@ li:last-child {
   font-size: 0.8rem;
 }
 
+.home-enterprise-picker {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.72fr) minmax(420px, 1.28fr);
+  gap: clamp(24px, 4vw, 52px);
+  align-items: start;
+  border-top: 8px solid var(--enen-accent);
+}
+
+.home-enterprise-copy p:last-child {
+  max-width: 38rem;
+  color: var(--ink-soft);
+}
+
+.home-enterprise-controls {
+  display: grid;
+  gap: 22px;
+}
+
+.home-day-shortcuts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.home-day-shortcuts a {
+  min-width: 0;
+  padding: 13px 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  color: var(--ink);
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(16, 38, 45, 0.05);
+}
+
+.home-day-shortcuts a:hover,
+.home-day-shortcuts a:focus-visible {
+  border-color: var(--teal);
+  transform: translateY(-2px);
+}
+
+.home-day-shortcuts span,
+.home-day-shortcuts strong {
+  display: block;
+}
+
+.home-day-shortcuts span {
+  color: var(--teal);
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.home-day-shortcuts strong {
+  margin-top: 4px;
+  overflow: hidden;
+  font-size: 0.88rem;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+}
+
 .enterprise-resource-title {
   margin: 0 0 10px;
   color: var(--ink-soft);
@@ -1354,6 +1417,14 @@ details > div {
     grid-column: 1;
   }
 
+  .home-enterprise-picker {
+    grid-template-columns: 1fr;
+  }
+
+  .home-day-shortcuts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .course-grid {
     grid-template-columns: 1fr;
   }
@@ -1580,6 +1651,7 @@ details > div {
   .action-grid,
   .day-resource-panel,
   .enterprise-resource-toolbar,
+  .home-enterprise-picker,
   .print-button,
   .text-button,
   .keyboard-hint,
