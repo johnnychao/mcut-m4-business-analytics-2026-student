@@ -300,6 +300,14 @@
       hour12: false,
     }).format(unlockAt);
 
+  const formatAssessmentUnlockClock = (unlockAt) =>
+    new Intl.DateTimeFormat("zh-TW", {
+      timeZone: "Asia/Taipei",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    }).format(unlockAt);
+
   const initAssessmentAvailability = () => {
     document.querySelectorAll("[data-assessment-gate]").forEach((gate) => {
       const link = gate.querySelector("[data-assessment-link]");
@@ -309,6 +317,7 @@
       if (!link || Number.isNaN(unlockAt.getTime())) return;
 
       const unlockText = formatAssessmentUnlockTime(unlockAt);
+      const unlockClock = formatAssessmentUnlockClock(unlockAt);
       const updateAvailability = () => {
         const isOpen = Date.now() >= unlockAt.getTime();
         if (isOpen) {
@@ -327,7 +336,7 @@
         link.setAttribute("aria-disabled", "true");
         link.setAttribute("tabindex", "-1");
         if (status) status.textContent = `當日驗收將於 ${unlockText}（台灣時間）開放。`;
-        if (label) label.textContent = "16:30 開放";
+        if (label) label.textContent = `${unlockClock} 開放`;
       };
 
       updateAvailability();
