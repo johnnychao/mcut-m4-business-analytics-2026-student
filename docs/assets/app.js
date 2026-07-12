@@ -2,6 +2,8 @@
   "use strict";
 
   const STORAGE_KEY = "m4-course-progress:v1";
+  const ENTERPRISE_STORAGE_KEY = "m4-enterprise-selection:v1";
+  const LAST_PAGE_STORAGE_KEY = "m4-last-course-page:v1";
   const SCHEMA_VERSION = 1;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let toastTimer = 0;
@@ -65,6 +67,96 @@
     return state.days[day];
   };
 
+  const loadEnterpriseSelection = () => {
+    try {
+      return String(localStorage.getItem(ENTERPRISE_STORAGE_KEY) || "").trim();
+    } catch (_error) {
+      return "";
+    }
+  };
+
+  const saveEnterpriseSelection = (enterpriseId) => {
+    try {
+      localStorage.setItem(ENTERPRISE_STORAGE_KEY, enterpriseId);
+      return true;
+    } catch (_error) {
+      showToast("瀏覽器無法保存企業選擇；離開本頁後可能需要重新選擇。", 4200);
+      return false;
+    }
+  };
+
+  const initEnterpriseSelectors = () => {
+    const selectors = [...document.querySelectorAll("[data-enterprise-select]")];
+    const groups = [...document.querySelectorAll("[data-enterprise-group]")];
+    if (!selectors.length || !groups.length) return;
+
+    const availableIds = new Set(
+      selectors.flatMap((select) => [...select.options].map((option) => option.value)),
+    );
+    const fallbackId = selectors[0]?.options[0]?.value || "";
+    const savedId = loadEnterpriseSelection();
+    const initialId = availableIds.has(savedId) ? savedId : fallbackId;
+
+    const applySelection = (enterpriseId, announce = false) => {
+      if (!availableIds.has(enterpriseId)) return;
+      selectors.forEach((select) => {
+        if ([...select.options].some((option) => option.value === enterpriseId)) {
+          select.value = enterpriseId;
+        }
+      });
+      groups.forEach((group) => {
+        group.hidden = group.dataset.enterpriseGroup !== enterpriseId;
+      });
+      document.documentElement.dataset.enterprise = enterpriseId;
+      const activeOption = [...selectors[0].options].find((option) => option.value === enterpriseId);
+      if (announce && activeOption) showToast(`已切換為「${activeOption.textContent.trim()}」專屬資源。`);
+    };
+
+    applySelection(initialId);
+    selectors.forEach((select) => {
+      select.addEventListener("change", () => {
+        const enterpriseId = select.value;
+        saveEnterpriseSelection(enterpriseId);
+        applySelection(enterpriseId, true);
+      });
+    });
+  };
+
+  const currentCoursePage = () => {
+    const page = document.body.dataset.page || "";
+    if (page === "day" && /^[1-4]$/.test(document.body.dataset.day || "")) {
+      return `day-${document.body.dataset.day}/index.html`;
+    }
+    if (["preflight", "resources", "faq"].includes(page)) return `${page}/index.html`;
+    return "";
+  };
+
+  const initLastVisitedPage = () => {
+    const current = currentCoursePage();
+    if (current) {
+      try {
+        localStorage.setItem(LAST_PAGE_STORAGE_KEY, current);
+      } catch (_error) {
+        // 只保存相對課程頁；無法使用 localStorage 時不影響課程功能。
+      }
+      return;
+    }
+
+    const continueLink = document.querySelector("[data-continue-link]");
+    if (!continueLink) return;
+    let saved = "";
+    try {
+      saved = String(localStorage.getItem(LAST_PAGE_STORAGE_KEY) || "");
+    } catch (_error) {
+      return;
+    }
+    if (!/^(?:day-[1-4]|preflight|resources|faq)\/index\.html$/.test(saved)) return;
+    continueLink.setAttribute("href", saved);
+    continueLink.hidden = false;
+    const pageLabel = saved.startsWith("day-") ? `Day ${saved.charAt(4)}` : "課程頁面";
+    continueLink.setAttribute("aria-label", `繼續上次進度：${pageLabel}`);
+  };
+
   const updateDayProgress = (day) => {
     const boxes = [...document.querySelectorAll(`[data-progress-checkbox][data-day="${day}"]`)];
     const complete = boxes.filter((box) => box.checked).length;
@@ -77,6 +169,10 @@
       bar.setAttribute("aria-valuenow", String(complete));
       const fill = bar.querySelector("span");
       if (fill) fill.style.width = `${percent}%`;
+    });
+    const isComplete = total > 0 && complete === total;
+    document.querySelectorAll(`[data-completion-state][data-day="${day}"]`).forEach((node) => {
+      node.hidden = !isComplete;
     });
   };
 
@@ -209,6 +305,8 @@
   };
 
   const init = () => {
+    initLastVisitedPage();
+    initEnterpriseSelectors();
     initDayProgress();
     initPreflight();
     initPrint();

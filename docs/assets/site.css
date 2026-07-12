@@ -10,6 +10,10 @@
   --coral: #d95f45;
   --blue: #407ba7;
   --green: #3d7d62;
+  --enen-ink: #2C3E50;
+  --enen-slate: #5D6D7E;
+  --enen-accent: #F39C12;
+  --enen-paper: #EAEDEF;
   --shadow: 0 18px 45px rgba(16, 38, 45, 0.11);
   --radius-lg: 24px;
   --radius-md: 14px;
@@ -20,6 +24,10 @@
 
 * {
   box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
 }
 
 html {
@@ -286,6 +294,17 @@ li:last-child {
   margin-top: 36px;
 }
 
+.hero-credit {
+  margin-top: 20px;
+  color: var(--enen-slate);
+  font-size: 0.88rem;
+}
+
+.hero-credit a {
+  color: var(--enen-ink);
+  font-weight: 900;
+}
+
 .primary-button,
 .secondary-button,
 .action-button,
@@ -339,6 +358,45 @@ li:last-child {
   color: var(--saffron);
   font-family: Consolas, monospace;
   font-size: 1.6rem;
+}
+
+.hero-visual {
+  position: relative;
+  padding-top: 34px;
+}
+
+.home-tutor-illustration {
+  position: absolute;
+  top: -76px;
+  right: -12px;
+  z-index: 2;
+  display: block;
+  width: 126px;
+  height: 125px;
+  object-fit: cover;
+  background: #fff;
+  border: 4px solid var(--paper-bright);
+  border-radius: 24px 24px 8px 24px;
+  box-shadow: 0 12px 26px rgba(16, 38, 45, 0.18);
+  transform: rotate(2deg);
+}
+
+.compact-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 144px;
+  gap: 32px;
+  align-items: center;
+}
+
+.faq-illustration {
+  display: block;
+  width: 132px;
+  height: 133px;
+  object-fit: cover;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
 }
 
 .page-stack,
@@ -473,6 +531,45 @@ li:last-child {
   transition: width 220ms var(--ease-out);
 }
 
+.completion-state {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  margin-top: 18px;
+  padding-top: 16px;
+  color: var(--enen-ink);
+  border-top: 1px dashed var(--enen-slate);
+}
+
+.completion-illustration {
+  display: block;
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  background: var(--enen-paper);
+  border: 1px solid var(--enen-slate);
+  border-radius: 18px;
+}
+
+.completion-state p,
+.completion-state strong,
+.completion-state span {
+  display: block;
+  margin: 0;
+}
+
+.completion-state strong {
+  color: var(--enen-ink);
+}
+
+.completion-state span {
+  margin-top: 3px;
+  color: var(--enen-slate);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
 .text-button {
   margin-top: 12px;
   padding: 0;
@@ -484,6 +581,133 @@ li:last-child {
 .action-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.day-resource-panel {
+  display: grid;
+  gap: 20px;
+  padding: clamp(22px, 4vw, 34px);
+  background: rgba(255, 253, 247, 0.96);
+  border: 1px solid var(--line);
+  border-left: 8px solid var(--enen-accent);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 30px rgba(16, 38, 45, 0.06);
+}
+
+.enterprise-selector {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.8fr) minmax(240px, 1fr);
+  gap: 8px 24px;
+  align-items: center;
+}
+
+.enterprise-selector label span,
+.enterprise-selector label strong {
+  display: block;
+}
+
+.enterprise-selector label span {
+  color: var(--enen-accent);
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.enterprise-selector select {
+  width: 100%;
+  min-height: 48px;
+  padding: 9px 42px 9px 14px;
+  color: var(--enen-ink);
+  background: #fff;
+  border: 2px solid var(--enen-slate);
+  border-radius: 10px;
+  font-weight: 900;
+}
+
+.enterprise-selector > p {
+  grid-column: 2;
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+}
+
+.enterprise-resource-title {
+  margin: 0 0 10px;
+  color: var(--ink-soft);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.enterprise-resource-title span {
+  color: var(--enen-ink);
+}
+
+.enterprise-resource-group .action-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.assessment-action {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 18px;
+  border-top: 1px dashed var(--line);
+}
+
+.assessment-action p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+}
+
+.assessment-action .action-button {
+  min-width: 230px;
+}
+
+.enterprise-resource-toolbar {
+  border-top: 8px solid var(--enen-accent);
+}
+
+.resource-submission-note {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  margin-top: 24px;
+  padding: 14px 18px;
+  color: var(--enen-ink);
+  background: var(--enen-paper);
+  border: 1px solid var(--enen-slate);
+  border-left: 6px solid var(--enen-accent);
+  border-radius: var(--radius-md);
+}
+
+.resource-submission-illustration {
+  display: block;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  background: var(--enen-paper);
+  border: 1px solid var(--enen-slate);
+  border-radius: 16px;
+}
+
+.resource-submission-note p,
+.resource-submission-note strong,
+.resource-submission-note span {
+  display: block;
+  margin: 0;
+}
+
+.resource-submission-note strong {
+  color: var(--enen-ink);
+}
+
+.resource-submission-note span {
+  margin-top: 4px;
+  color: var(--enen-slate);
 }
 
 .action-button {
@@ -558,6 +782,51 @@ li:last-child {
   color: var(--coral);
   font-family: Consolas, monospace;
   font-weight: 900;
+}
+
+.tutor-tip {
+  --day-color: var(--enen-accent);
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: 24px;
+  align-items: center;
+  padding: 22px 28px;
+  color: var(--enen-ink);
+  background: var(--enen-paper);
+  border: 1px solid var(--enen-slate);
+  border-left: 8px solid var(--day-color);
+  border-radius: var(--radius-lg);
+  box-shadow: none;
+}
+
+.tutor-tip-illustration {
+  display: block;
+  width: 108px;
+  height: 108px;
+  object-fit: cover;
+  background: var(--enen-paper);
+  border: 1px solid var(--enen-slate);
+  border-radius: 20px;
+}
+
+.tutor-tip .eyebrow,
+.tutor-tip h2,
+.tutor-tip p {
+  margin-top: 0;
+}
+
+.tutor-tip .eyebrow {
+  color: var(--enen-accent);
+}
+
+.tutor-tip h2 {
+  margin-bottom: 6px;
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+}
+
+.tutor-tip p:last-child {
+  margin-bottom: 0;
+  color: var(--enen-slate);
 }
 
 .timeline {
@@ -827,6 +1096,47 @@ pre {
   gap: 12px;
 }
 
+.preflight-stack {
+  display: grid;
+  gap: 30px;
+  padding-block: 56px 90px;
+}
+
+.colab-beginner-guide {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr);
+  gap: 28px;
+  align-items: center;
+  color: var(--enen-ink);
+  background: var(--enen-paper);
+  border-color: var(--enen-slate);
+  border-top: 8px solid var(--enen-accent);
+  box-shadow: none;
+}
+
+.colab-beginner-guide .eyebrow {
+  color: var(--enen-accent);
+}
+
+.colab-beginner-guide ol {
+  margin-bottom: 0;
+  padding-left: 1.3em;
+}
+
+.colab-beginner-guide li + li {
+  margin-top: 8px;
+}
+
+.colab-guide-illustration {
+  display: block;
+  width: 128px;
+  height: 128px;
+  object-fit: cover;
+  background: var(--enen-paper);
+  border: 1px solid var(--enen-slate);
+  border-radius: 22px;
+}
+
 .preflight-item {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -869,6 +1179,18 @@ pre {
 
 .resource-row .action-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.resource-row .day-resource-panel {
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.resource-row .enterprise-resource-group .action-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .resource-list {
@@ -924,8 +1246,47 @@ details > div {
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: 1.1fr 0.9fr auto;
   gap: 40px;
+  align-items: start;
+}
+
+.brand-credit {
+  display: grid;
+  min-width: 190px;
+  padding: 10px 14px;
+  color: var(--enen-ink);
+  background: var(--enen-paper);
+  border-left: 3px solid var(--enen-accent);
+  text-decoration: none;
+}
+
+.brand-credit:focus-visible,
+.hero-credit a:focus-visible {
+  outline-color: var(--enen-accent);
+}
+
+.brand-credit span,
+.brand-credit small {
+  color: var(--enen-slate);
+}
+
+.brand-credit span {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+}
+
+.brand-credit strong {
+  font-size: 1rem;
+}
+
+.brand-credit small {
+  font-size: 0.78rem;
+}
+
+.print-brand-credit {
+  display: none;
+  color: var(--enen-ink);
 }
 
 .toast {
@@ -975,9 +1336,22 @@ details > div {
 
 @media (max-width: 900px) {
   .hero-grid,
+  .compact-hero-grid,
   .boundary-banner,
   .resource-row {
     grid-template-columns: 1fr;
+  }
+
+  .compact-hero-grid {
+    justify-items: start;
+  }
+
+  .enterprise-selector {
+    grid-template-columns: 1fr;
+  }
+
+  .enterprise-selector > p {
+    grid-column: 1;
   }
 
   .course-grid {
@@ -994,6 +1368,10 @@ details > div {
 
   .footer-grid {
     grid-template-columns: 1fr;
+  }
+
+  .brand-credit {
+    width: fit-content;
   }
 }
 
@@ -1037,8 +1415,23 @@ details > div {
   .analysis-board,
   .objective-list,
   .action-grid,
+  .enterprise-resource-group .action-grid,
   .resource-row .action-grid {
     grid-template-columns: 1fr;
+  }
+
+  .hero-visual {
+    display: grid;
+    gap: 14px;
+    padding-top: 0;
+  }
+
+  .home-tutor-illustration {
+    position: static;
+    width: 104px;
+    height: 103px;
+    justify-self: end;
+    transform: none;
   }
 
   .analysis-board {
@@ -1053,6 +1446,28 @@ details > div {
   .primary-button,
   .secondary-button {
     width: 100%;
+  }
+
+  .assessment-action {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .assessment-action .action-button {
+    min-width: 0;
+  }
+
+  .colab-beginner-guide,
+  .tutor-tip {
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .colab-guide-illustration,
+  .tutor-tip-illustration {
+    width: 84px;
+    height: 84px;
+    border-radius: 16px;
   }
 
   .timeline::before {
@@ -1163,6 +1578,8 @@ details > div {
   .site-header,
   .site-footer,
   .action-grid,
+  .day-resource-panel,
+  .enterprise-resource-toolbar,
   .print-button,
   .text-button,
   .keyboard-hint,
@@ -1170,6 +1587,26 @@ details > div {
   .toast,
   .progress-panel {
     display: none !important;
+  }
+
+  .home-tutor-illustration,
+  .faq-illustration,
+  .colab-guide-illustration,
+  .tutor-tip-illustration {
+    display: none !important;
+  }
+
+  .print-brand-credit {
+    display: block;
+    margin: 10mm 0 0;
+    color: var(--enen-ink);
+    font-size: 8.5pt;
+    text-align: right;
+  }
+
+  .tutor-tip,
+  .colab-beginner-guide {
+    display: block;
   }
 
   .shell {
