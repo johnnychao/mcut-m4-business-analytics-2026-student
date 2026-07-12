@@ -88,6 +88,9 @@
   const initEnterpriseSelectors = () => {
     const selectors = [...document.querySelectorAll("[data-enterprise-select]")];
     const groups = [...document.querySelectorAll("[data-enterprise-group]")];
+    const contentGroups = [...document.querySelectorAll("[data-enterprise-content]")];
+    const currentNameNodes = [...document.querySelectorAll("[data-enterprise-current]")];
+    const enterpriseFigures = [...document.querySelectorAll("img[data-enterprise-src-template]")];
     // 首頁只有選擇器、沒有企業資源群組；仍需保存選擇供每日頁與資源中心套用。
     if (!selectors.length) return;
 
@@ -108,9 +111,31 @@
       groups.forEach((group) => {
         group.hidden = group.dataset.enterpriseGroup !== enterpriseId;
       });
+      contentGroups.forEach((group) => {
+        group.hidden = group.dataset.enterpriseContent !== enterpriseId;
+      });
+      const activeOption = selectors
+        .flatMap((select) => [...select.options])
+        .find((option) => option.value === enterpriseId);
+      const enterpriseName = activeOption?.textContent.trim() || enterpriseId;
+      currentNameNodes.forEach((node) => {
+        node.textContent = enterpriseName;
+      });
+      enterpriseFigures.forEach((image) => {
+        const template = image.dataset.enterpriseSrcTemplate || "";
+        const nextSource = template.replace("{enterprise}", enterpriseId);
+        const day = image.dataset.figureDay || "";
+        const step = image.dataset.figureStep || "";
+        if (nextSource && image.getAttribute("src") !== nextSource) {
+          image.setAttribute("src", nextSource);
+        }
+        image.alt = `${enterpriseName} Day ${day} ${step} 完成後的 Colab 輸出或操作檢核示意`;
+        image.dataset.enterpriseActive = enterpriseId;
+      });
       document.documentElement.dataset.enterprise = enterpriseId;
-      const activeOption = [...selectors[0].options].find((option) => option.value === enterpriseId);
-      if (announce && activeOption) showToast(`已切換為「${activeOption.textContent.trim()}」專屬資源。`);
+      if (announce && activeOption) {
+        showToast(`已切換為「${enterpriseName}」；任務、故事、圖表與專屬資源均已更新。`);
+      }
     };
 
     applySelection(initialId);
