@@ -729,6 +729,23 @@ li:last-child {
   min-width: 230px;
 }
 
+.assessment-action .action-button.is-locked {
+  color: var(--ink-soft);
+  cursor: not-allowed;
+  background: var(--paper-bright);
+  border-color: var(--line);
+  box-shadow: none;
+}
+
+.assessment-action .action-button.is-locked:hover,
+.assessment-action .action-button.is-locked:focus-visible {
+  color: var(--ink-soft);
+  background: var(--paper-bright);
+  border-color: var(--line);
+  box-shadow: none;
+  transform: none;
+}
+
 .enterprise-resource-toolbar {
   border-top: 8px solid var(--enen-accent);
 }

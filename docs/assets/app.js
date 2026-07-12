@@ -290,6 +290,52 @@
     });
   };
 
+  const formatAssessmentUnlockTime = (unlockAt) =>
+    new Intl.DateTimeFormat("zh-TW", {
+      timeZone: "Asia/Taipei",
+      month: "numeric",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    }).format(unlockAt);
+
+  const initAssessmentAvailability = () => {
+    document.querySelectorAll("[data-assessment-gate]").forEach((gate) => {
+      const link = gate.querySelector("[data-assessment-link]");
+      const status = gate.querySelector("[data-assessment-status]");
+      const label = gate.querySelector("[data-assessment-label]");
+      const unlockAt = new Date(gate.dataset.assessmentUnlockAt || "");
+      if (!link || Number.isNaN(unlockAt.getTime())) return;
+
+      const unlockText = formatAssessmentUnlockTime(unlockAt);
+      const updateAvailability = () => {
+        const isOpen = Date.now() >= unlockAt.getTime();
+        if (isOpen) {
+          const url = link.dataset.assessmentUrl || "";
+          if (url) link.setAttribute("href", url);
+          link.classList.remove("is-locked");
+          link.removeAttribute("aria-disabled");
+          link.removeAttribute("tabindex");
+          if (status) status.textContent = "當日驗收已開放；完成分析後即可前往作答。";
+          if (label) label.textContent = "前往當日驗收";
+          return;
+        }
+
+        link.removeAttribute("href");
+        link.classList.add("is-locked");
+        link.setAttribute("aria-disabled", "true");
+        link.setAttribute("tabindex", "-1");
+        if (status) status.textContent = `當日驗收將於 ${unlockText}（台灣時間）開放。`;
+        if (label) label.textContent = "16:30 開放";
+      };
+
+      updateAvailability();
+      const wait = unlockAt.getTime() - Date.now();
+      if (wait > 0) window.setTimeout(updateAvailability, wait);
+    });
+  };
+
   const isTypingTarget = (target) => {
     if (!(target instanceof Element)) return false;
     return Boolean(target.closest("input, textarea, select, [contenteditable='true']"));
@@ -336,6 +382,7 @@
     initDayProgress();
     initPreflight();
     initPrint();
+    initAssessmentAvailability();
     initKeyboard();
     initActiveNav();
   };
